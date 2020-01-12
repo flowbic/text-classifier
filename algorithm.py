@@ -3,13 +3,14 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 
 
-def multi_nb(X, y): # X = data, y = labels
+def multi_nb(X, y, test_data): # X = data, y = labels
 	clf = MultinomialNB()
 	clf.fit(X, y)
-	print(clf.predict(X[2:3]))
+	return clf.predict(test_data)
 
 
-def lin_svc(X, y):
+def lin_svc(X, y, test_data):
 	clf = LinearSVC()
 	clf.fit(X, y)
-	print(clf.predict(X[2:3]))
+	return clf.predict(test_data)
+

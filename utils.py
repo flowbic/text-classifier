@@ -1,14 +1,29 @@
 import numpy as np
-
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 def get_data(source):
-	list = []
+	arr_list = []
+	sentence_list = []
 	data = np.genfromtxt(source, delimiter='",', skip_header=1, dtype=str, usecols=(0,1))
 	for doc in data[:, 0]:
-		arr = doc[1: -1].split(' ')  # Removes first comma and last extra char, then makes it to array
-		list.append(arr)
+		sentence = doc[1: -1]
+		arr = sentence.split(' ')  # Removes first comma and last extra char, then makes it to array
+		sentence_list.append(sentence)
+		arr_list.append(arr)
 
-	return list, data[:, 1]
+	return arr_list, sentence_list, data[:, 1]
+
+
+def create_tf_idf_vectors(sentences):
+	vectorizer = TfidfVectorizer()
+	vectors = vectorizer.fit_transform(sentences)
+	feature_names = vectorizer.get_feature_names()
+	dense = vectors.todense()
+	dense_list = dense.tolist()
+	# df = pd.DataFrame(dense_list, columns=feature_names)
+	return dense_list
 
 
 def create_document_vectors(data):
@@ -40,3 +55,6 @@ def create_binary_vector(all_words_list, current_document):
 
 	return vector_list
 
+
+def accuracy_score(preds, y):
+	return np.mean(preds == y)
