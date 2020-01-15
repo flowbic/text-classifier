@@ -1,8 +1,8 @@
 import numpy as np
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+
+# Get data from file
 def get_data(source):
 	arr_list = []
 	sentence_list = []
@@ -10,8 +10,8 @@ def get_data(source):
 	for doc in data[:, 0]:
 		sentence = doc[1: -1]
 		arr = sentence.split(' ')  # Removes first comma and last extra char, then makes it to array
-		sentence_list.append(sentence)
-		arr_list.append(arr)
+		sentence_list.append(sentence)  # appends as a sting
+		arr_list.append(arr)  # appends as an array (each word = one element)
 
 	return arr_list, sentence_list, data[:, 1]
 
@@ -19,20 +19,19 @@ def get_data(source):
 def create_tf_idf_vectors(sentences):
 	vectorizer = TfidfVectorizer()
 	vectors = vectorizer.fit_transform(sentences)
-	feature_names = vectorizer.get_feature_names()
-	dense = vectors.todense()
-	dense_list = dense.tolist()
-	# df = pd.DataFrame(dense_list, columns=feature_names)
+	dense = vectors.todense()  # Result into matrix
+	dense_list = dense.tolist()  # Matrix into list
 	return dense_list
 
 
 def create_document_vectors(data):
-	vector_list = create_vector_list(data)
+	vector_list = create_vector_list(data)  # The bag of words
 	vectors = []
 	for doc in data:
-		vectors.append(create_binary_vector(vector_list, doc)) # Puts each document as vector, in list
+		vectors.append(create_binary_vector(vector_list, doc))  # Puts each document as vector, in list
 
 	return vectors
+
 
 # Creates one list with all words in all documents
 def create_vector_list(data):
@@ -44,6 +43,7 @@ def create_vector_list(data):
 	return list(s)
 
 
+# Makes binary vector from the bag of words and the array-document
 def create_binary_vector(all_words_list, current_document):
 	vector_list = []
 	doc_set = set(current_document)
