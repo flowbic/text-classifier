@@ -12,4 +12,4 @@ The second run executes both algorithms again, bu Term Frequency-Inverse Documen
 
 ## Execution
 Example of executing the Machine Learning algorithms
-![Screenshot of terminal, after execution](/images.screenshot.png)
+![Screenshot of terminal, after execution](/images/screenshot.png)
